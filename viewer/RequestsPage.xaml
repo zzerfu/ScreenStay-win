@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="KeepAwake.Viewer.RequestsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:KeepAwake.Viewer"
+    mc:Ignorable="mc"
+    NavigationCacheMode="Required">
+
+    <Page.Resources>
+        <Style x:Key="CardBorder" TargetType="Border">
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Padding="28,24" RowSpacing="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Spacing="6">
+            <TextBlock Text="阻止休眠的程序" Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                TextWrapping="Wrap"
+                Text="显示当前正在阻止屏幕关闭或系统睡眠的程序；默认只显示程序名称，需要时可查看详细信息。" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Spacing="6">
+            <local:WrapPanel HorizontalSpacing="10" VerticalSpacing="8">
+                <Button
+                    x:Name="RefreshButton"
+                    Content="获取电源请求（需要管理员权限）"
+                    Style="{StaticResource AccentButtonStyle}"
+                    Click="Refresh_Click" />
+                <Button
+                    x:Name="DetailsButton"
+                    Content="显示详细信息"
+                    Click="Details_Click" />
+                <Button Content="复制到剪贴板" Click="Copy_Click" />
+            </local:WrapPanel>
+            <TextBlock
+                x:Name="StatusText"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="12">
+                <Border Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="屏幕显示（阻止屏幕关闭）" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock
+                            x:Name="DisplaySummaryText"
+                            TextWrapping="Wrap"
+                            Text="尚未获取数据。点击上方按钮开始检测。" />
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}">
+                    <StackPanel Spacing="6">
+                        <TextBlock Text="系统睡眠（阻止系统睡眠）" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBlock
+                            x:Name="SystemSummaryText"
+                            TextWrapping="Wrap"
+                            Text="尚未获取数据。点击上方按钮开始检测。" />
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="DetailsBorder" Style="{StaticResource CardBorder}" Visibility="Collapsed">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="详细信息（原始电源请求输出）" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <TextBox
+                            x:Name="ReportBox"
+                            Height="420"
+                            IsReadOnly="True"
+                            AcceptsReturn="True"
+                            TextWrapping="NoWrap"
+                            FontFamily="Consolas"
+                            FontSize="13"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock
+                    x:Name="DataHint"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    TextWrapping="Wrap"
+                    Text="数据来自 Windows 电源请求（powercfg /requests），读取需要管理员权限。" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <InfoBar
+            x:Name="HintBar"
+            Grid.Row="3"
+            IsOpen="False"
+            IsClosable="True"
+            Severity="Informational"
+            Title="提示" />
+    </Grid>
+</Page>
