@@ -1,0 +1,26 @@
+# Generated application and release outputs
+/ScreenStay.exe
+/KeepAwake.exe
+/viewer-dist/
+/dist/
+**/bin/
+**/obj/
+.vs/
+.vscode/
+.idea/
+.build/
+.cache/
+**/__pycache__/
+*.pdb
+*.log
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+# Local secrets and signing material
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.key
